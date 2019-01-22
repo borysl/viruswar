@@ -15,29 +15,25 @@ function $(selector, container) {
 		
 		this.prevBoard = [];
 		this.board = cloneArray(seed);
+
+		this.reset = function () {
+			for (var y=0; y<this.height; y++) {
+				for (var x=0; x<this.width; x++) {
+					this.board[y][x] = '';
+				}
+			}
+			
+			this.board[0][0] = 'x';
+			this.board[this.height - 1][this.width - 1] = 'o';
+			this.board[this.height - 1][0] = 'ox';
+			this.board[0][this.width - 1] = 'xo';
+		};
 	};
 
 	_.prototype = {
 		next: function () {
 			this.prevBoard = cloneArray(this.board);
-			
-			for (var y=0; y<this.height; y++) {
-				for (var x=0; x<this.width; x++) {
-					var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
-					var alive = !!this.board[y][x];
-					
-					if (alive) {
-						if (neighbors < 2 || neighbors > 3) {
-							this.board[y][x] = 0;
-						}
-					}
-					else {
-						if (neighbors == 3) {
-							this.board[y][x] = 1;
-						}
-					}
-				}
-			}
+
 		},
 
 		step: function (x,y) {
@@ -87,10 +83,11 @@ function $(selector, container) {
 	var _ = self.VirusWarView = function (table, size) {
 		this.grid = table;
 		this.size = size;
-		this.autoplay = false;
 		
 		this.createGrid();
 		this.game = new VirusWar(this.boardArray);
+		this.game.reset();
+		this.refresh();
 	};
 
 	_.prototype = {
@@ -112,30 +109,6 @@ function $(selector, container) {
 					
 					this.checkboxes[y][x] = checkbox;
 					checkbox.coords = [y, x];
-
-					// X starting position
-					if ((x == 0) && (y == 0)) {
-						checkbox.classList = 'x';
-						checkbox.checked = true;
-					}
-
-					// O starting position
-					if ((x == this.size - 1) && (y == this.size - 1)) {
-						checkbox.classList = 'o';
-						checkbox.checked = true;
-					}
-
-					// O starting position
-					if ((x == this.size - 1) && (y == 0)) {
-						checkbox.classList = 'xo';
-						checkbox.checked = true;
-					}
-
-															// O starting position
-					if ((x == 0) && (y == this.size - 1)) {
-						checkbox.classList = 'ox';
-						checkbox.checked = true;
-					}
 
 					cell.appendChild(checkbox);
 					row.appendChild(cell);
@@ -198,25 +171,26 @@ function $(selector, container) {
 				});
 			});
 		},
-		
-		next: function () {
-			var me = this;
-			
-			this.game.next();
-			
+
+		refresh: function() {
 			var board = this.game.board;
 			
 			for (var y=0; y<this.size; y++) {
 				for (var x=0; x<this.size; x++) {
 					this.checkboxes[y][x].checked = !!board[y][x];
+					this.checkboxes[y][x].classList = board[y][x];
 				}
 			}
-			
-			if (this.autoplay) {
-				this.timer = setTimeout(function () {
-					me.next();
-				}, 1000);
-			}
+		},
+		
+		next: function () {
+			this.game.next();
+			this.refresh();
+		},
+
+		reset: function () {
+			this.game.reset();
+			this.refresh();
 		}
 	};
 
@@ -227,22 +201,16 @@ var VirusWarView = new VirusWarView(document.getElementById('grid'), 10);
 (function() {
 
 	var buttons = {
-		next: $('button.next')
+		next: $('button.next'),
+		reset: $('button.reset')
 	};
 
 	buttons.next.addEventListener('click', function() {
 		VirusWarView.next();
 	});
 
-	$('#autoplay').addEventListener('change', function() {
-		buttons.next.disabled = this.checked;
-		
-		if (this.checked) {
-			VirusWarView.autoplay = this.checked;
-			VirusWarView.next();
-		}
-		else {
-			clearTimeout(VirusWarView.timer);
-		}
+	buttons.reset.addEventListener('click', function() {
+		VirusWarView.reset();
 	});
+
 })();
