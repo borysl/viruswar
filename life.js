@@ -46,8 +46,9 @@ function $(selector, container) {
 				this.stepLeft--;
 				this.board[y][x] = this.turn;
 			}
-			if (this.stepLeft) {
+			if (!this.stepLeft) {
 				this.turn = this.turn === 'x' ? 'o' : 'x';
+				this.stepLeft = 3;
 			}
 			return this.board[y][x];
 		},
@@ -86,6 +87,7 @@ function $(selector, container) {
 		this.autoplay = false;
 		
 		this.createGrid();
+		this.game = new VirusWar(this.boardArray);
 	};
 
 	_.prototype = {
@@ -129,7 +131,12 @@ function $(selector, container) {
 			
 			this.grid.addEventListener('change', function(evt) {
 				if (evt.target.nodeName.toLowerCase() == 'input') {
-					me.started = false;
+					var coords = evt.target.coords;
+					var y = coords[0];
+					var x = coords[1];
+
+					var result = me.game.step(x, y);
+					evt.target.classList = result;
 				}
 			});
 			
@@ -177,23 +184,8 @@ function $(selector, container) {
 			});
 		},
 		
-		play: function () {
-			this.game = new VirusWar(this.boardArray);
-			
-			for (var y=0; y<this.size; y++) {		
-				for (var x=0; x<this.size; x++) {
-					this.checkboxes[y][x].addEventListener('click', this.game.step); 
-				}
-			}
-			
-		},
-		
 		next: function () {
 			var me = this;
-			
-			if (!this.started || this.game) {
-				this.play();
-			}
 			
 			this.game.next();
 			
@@ -238,6 +230,4 @@ var VirusWarView = new VirusWarView(document.getElementById('grid'), 10);
 			clearTimeout(VirusWarView.timer);
 		}
 	});
-
-// $('#grid input[type="checkbox"]').addEventListener('click', onCheckBoxClick)
 })();
