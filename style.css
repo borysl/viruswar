@@ -46,7 +46,6 @@ h1 {
 	}
 	
 		#grid input[type="checkbox"]:checked {
-			box-shadow: 0 0 0 99px black inset;
 			-webkit-animation: birth 1s;
 			animation: birth 1s;
 		}
@@ -55,20 +54,24 @@ h1 {
 			background-image: url(cross.svg);
 			background-repeat: no-repeat;
 			background-size: 20px 20px;
-			box-shadow: none;
-			-webkit-animation: birth 1s;
-			animation: birth 1s;
 		}
 
 		#grid input[type="checkbox"].o:checked {
 			background-image: url(circle.svg);
 			background-repeat: no-repeat;
 			background-size: 20px 20px;
-			box-shadow: none;
-			-webkit-animation: birth 1s;
-			animation: birth 1s;
 		}
-		
+
+		#grid input[type="checkbox"].ox:checked {
+			background-image: url(ox.svg);
+			background-repeat: no-repeat;
+			background-size: 20px 20px;
+		}
+
+		#grid input[type="checkbox"].xo:checked {
+			box-shadow: 0 0 0 99px black inset;
+		}
+
 button,
 .button {
 	padding: .4em .6em;

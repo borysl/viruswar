@@ -41,16 +41,19 @@ function $(selector, container) {
 		},
 
 		step: function (x,y) {
-			if (this.board[y][x]) return 0;
-			if (this.stepLeft) {
-				this.stepLeft--;
-				this.board[y][x] = this.turn;
-			}
+			var currentField = this.board[y][x];
+			if (currentField.length >= 2) return 0;
+			if (currentField.length == 1 && currentField == this.turn) return 0;
+			if (currentField == '0') currentField = '';
+			this.stepLeft--;
+			currentField = currentField ? this.turn : currentField + this.turn;
+
 			if (!this.stepLeft) {
 				this.turn = this.turn === 'x' ? 'o' : 'x';
 				this.stepLeft = 3;
 			}
-			return this.board[y][x];
+			this.board[y][x] = currentField;
+			return currentField;
 		},
 		
 		aliveNeighbors: function (array, x, y) {
@@ -122,6 +125,18 @@ function $(selector, container) {
 						checkbox.checked = true;
 					}
 
+					// O starting position
+					if ((x == this.size - 1) && (y == 0)) {
+						checkbox.classList = 'xo';
+						checkbox.checked = true;
+					}
+
+															// O starting position
+					if ((x == 0) && (y == this.size - 1)) {
+						checkbox.classList = 'ox';
+						checkbox.checked = true;
+					}
+
 					cell.appendChild(checkbox);
 					row.appendChild(cell);
 				}
@@ -136,7 +151,7 @@ function $(selector, container) {
 					var x = coords[1];
 
 					var result = me.game.step(x, y);
-					evt.target.classList = result;
+					if (result) evt.target.classList = result;
 				}
 			});
 			
