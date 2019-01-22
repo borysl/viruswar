@@ -6,7 +6,7 @@ function $(selector, container) {
 
 (function() {
 
-var _ = self.Life = function(seed) {
+var _ = self.VirusWar = function(seed) {
 	this.seed = seed;
 	this.height = seed.length;
 	this.width = seed[0].length;
@@ -66,7 +66,7 @@ function cloneArray(array) {
 
 (function(){
 
-var _ = self.LifeView = function (table, size) {
+var _ = self.VirusWarView = function (table, size) {
 	this.grid = table;
 	this.size = size;
 	this.started = false;
@@ -91,6 +91,7 @@ _.prototype = {
 				var cell = document.createElement('td');
 				var checkbox = document.createElement('input');
 				checkbox.type = 'checkbox';
+				checkbox.classList = 'x';
 				this.checkboxes[y][x] = checkbox;
 				checkbox.coords = [y, x];
 				
@@ -152,7 +153,7 @@ _.prototype = {
 	},
 	
 	play: function () {
-		this.game = new Life(this.boardArray);
+		this.game = new VirusWar(this.boardArray);
 		this.started = true;
 	},
 	
@@ -183,7 +184,7 @@ _.prototype = {
 
 })();
 
-var lifeView = new LifeView(document.getElementById('grid'), 12);
+var VirusWarView = new VirusWarView(document.getElementById('grid'), 10);
 
 (function() {
 
@@ -192,18 +193,18 @@ var buttons = {
 };
 
 buttons.next.addEventListener('click', function() {
-	lifeView.next();
+	VirusWarView.next();
 });
 
 $('#autoplay').addEventListener('change', function() {
 	buttons.next.disabled = this.checked;
 	
 	if (this.checked) {
-		lifeView.autoplay = this.checked;
-		lifeView.next();
+		VirusWarView.autoplay = this.checked;
+		VirusWarView.next();
 	}
 	else {
-		clearTimeout(lifeView.timer);
+		clearTimeout(VirusWarView.timer);
 	}
 });
 	
