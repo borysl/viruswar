@@ -10,5 +10,11 @@
       "request": "launch",
       "file": "${workspaceFolder}/index.html"
     },
+    {
+      "name": "Run tests in test.html",
+      "type": "chrome",
+      "request": "launch",
+      "file": "${workspaceFolder}/test.html"
+    },
   ]
 }
