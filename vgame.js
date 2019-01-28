@@ -7,7 +7,7 @@ function $(selector, container) {
 	return (container || document).querySelector(selector);
 }
 
-var VirusWarView = new VirusWarView(document.getElementById('grid'), 10);
+var virusWarView = new VirusWarView(document.getElementById('grid'), $('#player'), $('#steps'), 10);
 
 (function() {
 
@@ -17,11 +17,11 @@ var VirusWarView = new VirusWarView(document.getElementById('grid'), 10);
 	};
 
 	buttons.next.addEventListener('click', function() {
-		VirusWarView.next();
+		virusWarView.next();
 	});
 
 	buttons.reset.addEventListener('click', function() {
-		VirusWarView.reset();
+		virusWarView.reset();
 	});
 
 })();

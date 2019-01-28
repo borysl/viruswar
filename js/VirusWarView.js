@@ -2,14 +2,18 @@
 /* global VirusWar */
 
 (function(){
-	var _ = self.VirusWarView = function (table, size) {
+	var _ = self.VirusWarView = function (table, playerElement, stepCounter, size) {
 		this.grid = table;
+		this.playerElement = playerElement;
+		this.stepCounter = stepCounter;
 		this.size = size;
 		
 		this.createGrid();
 		this.game = new VirusWar(this.boardArray);
 		this.game.reset();
 		this.refresh();
+		this.updateCounters();
+		this.updateAvailability();
 	};
 
 	_.prototype = {
@@ -46,6 +50,8 @@
 					var x = coords[1];
 
 					var result = me.game.step(x, y);
+					me.updateCounters();
+					me.updateAvailability();
 					if (result) evt.target.classList = result;
 				}
 			});
@@ -92,6 +98,20 @@
 					return +checkbox.checked;
 				});
 			});
+		},
+
+		updateCounters: function() {
+			this.playerElement.innerText = this.game.turn;
+			this.stepCounter.innerText = this.game.stepLeft;
+		},
+
+		updateAvailability: function() {
+			var availableTurns = this.game.getAvailableTurn(this.game.turn);
+			for (var y=0; y<this.size; y++) {
+				for (var x=0; x<this.size; x++) {
+					if (availableTurns[y][x]) this.checkboxes[y][x].removeAttribute('disabled'); else this.checkboxes[y][x].disabled = true; 
+				}
+			}
 		},
 
 		refresh: function() {
