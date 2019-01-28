@@ -53,13 +53,11 @@
 			var me = this;
 			
 			var canMoveHere = cloneArray(me.board);
-			var zoneOfControl = cloneArray(me.board);
 			var isCheckedAlready = cloneArray(me.board);
 
 			for (var i = 0; i < canMoveHere.length; i++) {
 				for (var j = 0; j < canMoveHere[i].length; j++) {
 					canMoveHere[i][j] = false;
-					zoneOfControl[i][j] = (me.board[i][j] === whoseTurn);
 					isCheckedAlready[i][j] = false;
 				}
 			}
@@ -70,14 +68,12 @@
 				if (me.board[i][j] === whoseTurn) {
 					return false;
 				}
+				isCheckedAlready[i][j] = true;
 				if (me.board[i][j] === '' || me.board[i][j] === opponent(whoseTurn)) {
 					canMoveHere[i][j] = true;
-					isCheckedAlready[i][j] = true;
 					return true;
 				} else if (me.board[i][j].length === 2) {
-					isCheckedAlready[i][j] = true;
 					if (me.board[i][j][1] === whoseTurn) {
-						zoneOfControl[i][j] = true;
 						canMoveHere[i][j] = false;
 						brush(i,j);
 					} else {
@@ -88,26 +84,20 @@
 			}
 
 			function brush(i,j) {
-				var isEffective = 
-					check(i-1,j-1) |
-					check(i-1,j) |
-					check(i-1,j+1) |
-					check(i,j-1) |
-					check(i,j+1) |
-					check(i+1,j-1) |
-					check(i+1,j) |
-					check(i+1,j+1);
-
-				return isEffective;
+				check(i-1,j-1);
+				check(i-1,j);
+				check(i-1,j+1);
+				check(i,j-1);
+				check(i,j+1);
+				check(i+1,j-1);
+				check(i+1,j);
+				check(i+1,j+1);
 			}
 
 			for (i = 0; i < canMoveHere.length; i++) {
 				for (j = 0; j < canMoveHere[i].length; j++) {
 					if (isCheckedAlready[i][j]) continue;
-					if (zoneOfControl[i][j]) {
-						canMoveHere[i][j] = false;
-						brush(i,j);
-					}
+					if (me.board[i][j] === whoseTurn) brush(i,j);
 				}
 			}
 			return canMoveHere;
