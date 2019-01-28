@@ -25,10 +25,12 @@
 		};
 	};
 
+	function opponent(symbol) {
+		return symbol === 'x' ? 'o' : 'x'
+	}
 	_.prototype = {
 		next: function () {
 			this.prevBoard = cloneArray(this.board);
-
 		},
 
 		step: function (x,y) {
@@ -40,24 +42,78 @@
 			currentField = currentField ? this.turn : currentField + this.turn;
 
 			if (!this.stepLeft) {
-				this.turn = this.turn === 'x' ? 'o' : 'x';
+				this.turn = opponent(this.turn);
 				this.stepLeft = 3;
 			}
 			this.board[y][x] = currentField;
 			return currentField;
 		},
 		
-		aliveNeighbors: function (array, x, y) {
-			var prevRow = array[y-1] || [];
-			var nextRow = array[y+1] || [];
+		getAvailableTurn: function (whoseTurn) {
+			var me = this;
 			
-			return [
-				prevRow[x-1], prevRow[x], prevRow[x+1],
-				array[y][x-1], array[y][x+1],
-				nextRow[x-1], nextRow[x], nextRow[x+1]
-			].reduce(function (prev, cur) {
-				return prev + +!!cur;
-			}, 0);
+			var canMoveHere = cloneArray(me.board);
+			var zoneOfControl = cloneArray(me.board);
+			var isCheckedAlready = cloneArray(me.board);
+
+			for (var i = 0; i < canMoveHere.length; i++) {
+				for (var j = 0; j < canMoveHere[i].length; j++) {
+					canMoveHere[i][j] = false;
+					zoneOfControl[i][j] = (me.board[i][j] === whoseTurn);
+					isCheckedAlready[i][j] = false;
+				}
+			}
+
+			function check(i,j) {
+				if (i == 3 && j == 2) {
+					console.warn('!');
+				}
+				if (i < 0 || i >= me.height || j < 0 || j >= me.width) return false;
+				if (isCheckedAlready[i][j]) return false;
+				if (me.board[i][j] === 'o') {
+					return false;
+				}
+				if (me.board[i][j] === '' || me.board[i][j] === 'x') {
+					canMoveHere[i][j] = true;
+					isCheckedAlready[i][j] = true;
+					return true;
+				} else if (me.board[i][j] === 'xo') {
+					zoneOfControl[i][j] = true;
+					canMoveHere[i][j] = false;
+					isCheckedAlready[i][j] = true;
+					brush(i,j);
+					return false;
+				} else if (me.board[i][j] === 'ox') {
+					canMoveHere[i][j] = false;
+					isCheckedAlready[i][j] = true;
+					return false;
+				}
+			}
+
+			function brush(i,j) {
+				var isEffective = 
+					check(i-1,j-1) |
+					check(i-1,j) |
+					check(i-1,j+1) |
+					check(i,j-1) |
+					check(i,j+1) |
+					check(i+1,j-1) |
+					check(i+1,j) |
+					check(i+1,j+1);
+
+				return isEffective;
+			}
+
+			for (i = 0; i < canMoveHere.length; i++) {
+				for (j = 0; j < canMoveHere[i].length; j++) {
+					if (isCheckedAlready[i][j]) continue;
+					if (zoneOfControl[i][j]) {
+						canMoveHere[i][j] = false;
+						brush(i,j);
+					}
+				}
+			}
+			return canMoveHere;
 		},
 		
 		toString: function () {
