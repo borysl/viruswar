@@ -1,0 +1,11 @@
+{
+    "user": "<user>",
+    "password": "<password>",
+    "host": "<host>",
+    "port": "21",
+    "remoteRoot": "/public_html/",
+    "include": ["index.html", "*.svg", "style.css", "js/*.*"],
+    "exclude": ["dist/**/*.map"],
+    "deleteRemote": true,
+    "forcePasv": false
+}

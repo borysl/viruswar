@@ -7,12 +7,16 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "test.js"
+    "test": "test.js",
+    "publish": "node deploy.js"
   },
   "author": "Borys Lebeda",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
+  },
+  "devDependencies": {
+    "ftp-deploy": "^2.3.0"
   }
 }
