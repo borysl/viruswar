@@ -1,3 +1,8 @@
+:root {
+  --cell-size: 40px; 
+}
+
+
 * {
 	padding: 0;
 	margin: 0;
@@ -39,11 +44,13 @@ h1 {
 		-moz-appearance: none;
 		appearance: none;
 		display: block;
-		width: 20px;
-		height: 20px;
+		width: var(--cell-size);
+		height: var(--cell-size);
 		border: 0;
 		background: white;
-	}
+		background-repeat: no-repeat;
+		background-size: var(--cell-size) var(--cell-size);
+}
 	
 		#grid input[type="checkbox"]:checked {
 			-webkit-animation: birth 1s;
@@ -52,24 +59,22 @@ h1 {
 
 		#grid input[type="checkbox"].x:checked {
 			background-image: url(cross.svg);
-			background-repeat: no-repeat;
-			background-size: 20px 20px;
 		}
 
 		#grid input[type="checkbox"].o:checked {
 			background-image: url(circle.svg);
-			background-repeat: no-repeat;
-			background-size: 20px 20px;
 		}
 
 		#grid input[type="checkbox"].ox {
 			background-image: url(ox.svg);
-			background-repeat: no-repeat;
-			background-size: 20px 20px;
+			-webkit-animation: birth .5s;
+			animation: birth .5s;
 		}
 
 		#grid input[type="checkbox"].xo {
 			box-shadow: 0 0 0 99px black inset;
+			-webkit-animation: birth .5s;
+			animation: birth .5s;
 		}
 
 		#grid input[type="checkbox"]:disabled {

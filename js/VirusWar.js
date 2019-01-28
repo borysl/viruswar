@@ -23,7 +23,6 @@
 			this.turn = 'x';
 			this.status = '';
 		};
-		this.reset();
 	};
 
 	function opponent(symbol) {

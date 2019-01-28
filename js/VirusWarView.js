@@ -1,5 +1,6 @@
 'use strict';
 /* global VirusWar */
+/// <reference path='VirusWar.js' />
 
 (function(){
 	var _ = self.VirusWarView = function (table, playerElement, stepCounter, statusLine, size) {

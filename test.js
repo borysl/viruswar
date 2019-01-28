@@ -1,10 +1,9 @@
 'use strict';
 /* global chai, describe, it, VirusWar */
-/// <reference path='js/VirusWar.js' />
-/// <reference path='node_modules/mocha/mocha.js' />
-/// <reference path='node_modules/chai/chai.js' />
+/// <reference path='VirusWar.js' />
+/// <reference path='../node_modules/mocha/mocha.js' />
+/// <reference path='../node_modules/chai/chai.js' />
 
-// var describe = 
 var expect = chai.expect;
 	
 describe('VirusWar', function() {
