@@ -21,6 +21,7 @@
 
 			this.stepLeft = 3;
 			this.turn = 'x';
+			this.status = '';
 		};
 		this.reset();
 	};
@@ -29,10 +30,6 @@
 		return symbol === 'x' ? 'o' : 'x';
 	}
 	_.prototype = {
-		next: function () {
-			this.prevBoard = cloneArray(this.board);
-		},
-
 		step: function (x,y) {
 			var currentField = this.board[y][x];
 			if (currentField.length >= 2) return 0;
@@ -100,6 +97,18 @@
 					if (me.board[i][j] === whoseTurn) brush(i,j);
 				}
 			}
+
+			var status = whoseTurn;
+			for (i = 0; i < canMoveHere.length; i++) {
+				for (j = 0; j < canMoveHere[i].length; j++) {
+					if (canMoveHere[i][j]) {
+						status = '';
+						break;
+					}
+				}
+			}
+
+			this.status = status;
 			return canMoveHere;
 		},
 		

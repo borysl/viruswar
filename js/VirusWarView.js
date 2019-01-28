@@ -2,10 +2,11 @@
 /* global VirusWar */
 
 (function(){
-	var _ = self.VirusWarView = function (table, playerElement, stepCounter, size) {
+	var _ = self.VirusWarView = function (table, playerElement, stepCounter, statusLine, size) {
 		this.grid = table;
 		this.playerElement = playerElement;
 		this.stepCounter = stepCounter;
+		this.statusLine = statusLine;
 		this.size = size;
 		
 		this.createGrid();
@@ -51,6 +52,7 @@
 					var result = me.game.step(x, y);
 					me.updateCounters();
 					me.updateAvailability();
+					me.updateStatus();
 					if (result) evt.target.classList = result;
 				}
 			});
@@ -113,6 +115,22 @@
 			}
 		},
 
+		updateStatus: function() {
+			this.statusLine.classList = this.game.status;
+			switch(this.game.status) {
+				case 'o':
+					this.statusLine.innerText = 'Хрестики перемогли!';
+					alert(this.statusLine.innerText);
+					return;
+				case 'x':
+					this.statusLine.innerText = 'Нулики перемогли!';
+					alert(this.statusLine.innerText);
+					return;
+				default:
+					this.statusLine.innerText = 'Гра триває!';
+			}
+		},
+
 		refresh: function() {
 			var board = this.game.board;
 			
@@ -124,13 +142,9 @@
 			}
 			this.updateCounters();
 			this.updateAvailability();
+			this.updateStatus();
 		},
 		
-		next: function () {
-			this.game.next();
-			this.refresh();
-		},
-
 		reset: function () {
 			this.game.reset();
 			this.refresh();

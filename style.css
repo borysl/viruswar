@@ -91,6 +91,10 @@ button,
 	cursor: pointer;
 }
 
+footer {
+	margin-top: 20px;
+}
+
 button:enabled:active,
 .button:active,
 input[type="checkbox"]:checked + label.button {
@@ -101,4 +105,14 @@ input[type="checkbox"]:checked + label.button {
 button:disabled {
 	background-color: hsl(80,20%,40%);
 	cursor: not-allowed;
+}
+
+#status {
+	padding: 20px;
+	font-style: italic;
+}
+
+#status.x, #status.o  {
+	font-weight: bold;
+	color: hsl(80,80%,35%);
 }
