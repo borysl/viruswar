@@ -62,13 +62,13 @@ h1 {
 			background-size: 20px 20px;
 		}
 
-		#grid input[type="checkbox"].ox:checked {
+		#grid input[type="checkbox"].ox {
 			background-image: url(ox.svg);
 			background-repeat: no-repeat;
 			background-size: 20px 20px;
 		}
 
-		#grid input[type="checkbox"].xo:checked {
+		#grid input[type="checkbox"].xo {
 			box-shadow: 0 0 0 99px black inset;
 		}
 

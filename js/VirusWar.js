@@ -20,13 +20,11 @@
 			
 			this.board[0][0] = 'x';
 			this.board[this.height - 1][this.width - 1] = 'o';
-			this.board[this.height - 1][0] = 'ox';
-			this.board[0][this.width - 1] = 'xo';
 		};
 	};
 
 	function opponent(symbol) {
-		return symbol === 'x' ? 'o' : 'x'
+		return symbol === 'x' ? 'o' : 'x';
 	}
 	_.prototype = {
 		next: function () {
@@ -39,7 +37,7 @@
 			if (currentField.length == 1 && currentField == this.turn) return 0;
 			if (currentField == '0') currentField = '';
 			this.stepLeft--;
-			currentField = currentField ? this.turn : currentField + this.turn;
+			currentField = currentField ? currentField + this.turn : this.turn;
 
 			if (!this.stepLeft) {
 				this.turn = opponent(this.turn);
