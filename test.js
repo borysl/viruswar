@@ -43,7 +43,7 @@ describe('VirusWar', function() {
 			expect(vgame.board[vgame.height - 1][vgame.width - 1]).to.equal('o');
 		});
 
-		it('на тестовій дошці ми можемо походити на 8 клітинок', function() {
+		it('на тестовій дошці нулики можуть походити на 8 клітинок', function() {
 			var vgame = new VirusWar(testBoard());
 			var availableTurns = vgame.getAvailableTurn('o');
 			var checkAvailableTurns = [
@@ -59,5 +59,23 @@ describe('VirusWar', function() {
 				}
 			}
 		});
+
+		it('на тестовій дошці хрестики можуть походити на 7 клітинок', function() {
+			var vgame = new VirusWar(testBoard());
+			var availableTurns = vgame.getAvailableTurn('x');
+			var checkAvailableTurns = [
+				[false, true, false, false, false],
+				[false, false, true, true, true],
+				[false, false, false, false, true],
+				[false, true, true, false, false]
+			];
+
+			for (var i = 0; i < checkAvailableTurns.length; i++) {
+				for (var j = 0; j < checkAvailableTurns[i].length; j++) {
+					expect(availableTurns[i][j]).to.equal(checkAvailableTurns[i][j], 'cell (' + i + ',' + j + ') contains wrong data!');
+				}
+			}
+		});
+
 	});
 });

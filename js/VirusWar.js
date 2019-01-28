@@ -65,29 +65,26 @@
 			}
 
 			function check(i,j) {
-				if (i == 3 && j == 2) {
-					console.warn('!');
-				}
 				if (i < 0 || i >= me.height || j < 0 || j >= me.width) return false;
 				if (isCheckedAlready[i][j]) return false;
-				if (me.board[i][j] === 'o') {
+				if (me.board[i][j] === whoseTurn) {
 					return false;
 				}
-				if (me.board[i][j] === '' || me.board[i][j] === 'x') {
+				if (me.board[i][j] === '' || me.board[i][j] === opponent(whoseTurn)) {
 					canMoveHere[i][j] = true;
 					isCheckedAlready[i][j] = true;
 					return true;
-				} else if (me.board[i][j] === 'xo') {
-					zoneOfControl[i][j] = true;
-					canMoveHere[i][j] = false;
+				} else if (me.board[i][j].length === 2) {
 					isCheckedAlready[i][j] = true;
-					brush(i,j);
+					if (me.board[i][j][1] === whoseTurn) {
+						zoneOfControl[i][j] = true;
+						canMoveHere[i][j] = false;
+						brush(i,j);
+					} else {
+						canMoveHere[i][j] = false;
+					}
 					return false;
-				} else if (me.board[i][j] === 'ox') {
-					canMoveHere[i][j] = false;
-					isCheckedAlready[i][j] = true;
-					return false;
-				}
+				} 
 			}
 
 			function brush(i,j) {
