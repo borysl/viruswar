@@ -12,8 +12,7 @@
 		this.game = new VirusWar(this.boardArray);
 		this.game.reset();
 		this.refresh();
-		this.updateCounters();
-		this.updateAvailability();
+
 	};
 
 	_.prototype = {
@@ -123,6 +122,8 @@
 					this.checkboxes[y][x].classList = board[y][x];
 				}
 			}
+			this.updateCounters();
+			this.updateAvailability();
 		},
 		
 		next: function () {

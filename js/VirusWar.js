@@ -5,8 +5,6 @@
 		this.seed = seed;
 		this.height = seed.length;
 		this.width = seed[0].length;
-		this.stepLeft = 3;
-		this.turn = 'x';
 		
 		this.prevBoard = [];
 		this.board = cloneArray(seed);
@@ -20,7 +18,11 @@
 			
 			this.board[0][0] = 'x';
 			this.board[this.height - 1][this.width - 1] = 'o';
+
+			this.stepLeft = 3;
+			this.turn = 'x';
 		};
+		this.reset();
 	};
 
 	function opponent(symbol) {
